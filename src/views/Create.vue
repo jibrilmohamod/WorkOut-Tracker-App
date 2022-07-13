@@ -1,22 +1,22 @@
 <template>
-  <div></div>
+ <div>create</div>
 </template>
 
 <script>
-export default {
+ export default {
   name: "create",
   setup() {
-    // Create data
+   // Create data
 
-    // Add exercise
+   // Add exercise
 
-    // Delete exercise
+   // Delete exercise
 
-    // Listens for chaging of workout type input
+   // Listens for chaging of workout type input
 
-    // Create workout
+   // Create workout
 
-    return {};
+   return {}
   },
-};
+ }
 </script>
