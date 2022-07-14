@@ -9,12 +9,77 @@
     {{ errorMsg }}
    </p>
   </div>
+
+  <div v-if="dataLoaded">
+   <!-- General Workout Info -->
+   <div
+    class="flex flex-col items-center p-8 rounded-md shadow-md 
+      bg-light-grey relative"
+   >
+    <div v-if="user" class="flex absolute left-2 top-2 gap-x-2">
+     <div
+      class="h-7 w-7 rounded-full flex justify-center items-center cursor-pointer
+        bg-at-light-green shadow-lg"
+      @click="editMode"
+     >
+      <img class="h-3.5 w-auto" src="@/assets/images/pencil-light.png" alt="" />
+     </div>
+     <div
+      @click="deleteWorkout"
+      class="h-7 w-7 rounded-full flex justify-center items-center cursor-pointer
+        bg-at-light-green shadow-lg"
+     >
+      <img class="h-3.5 w-auto" src="@/assets/images/trash-light.png" alt="" />
+     </div>
+    </div>
+
+    <img
+     v-if="data.workoutType === 'cardio'"
+     class="h-24 w-auto"
+     src="@/assets/images/running-light-green.png"
+     alt=""
+    />
+
+    <img
+     v-else
+     class="h-24 w-auto"
+     src="@/assets/images/dumbbell-light-green.png"
+     alt=""
+    />
+
+    <span
+     class="mt-6 py-1.5 px-5 text-xs text-white bg-at-light-green
+        rounded-lg shadow-md"
+    >
+     {{ data.workoutType }}
+    </span>
+
+    <div class="w-full mt-6">
+     <input
+      v-if="edit"
+      type="text"
+      class="p-2 w-full text-gray-500 focus:outline-none"
+      v-model="data.workoutName"
+     />
+     <h1 v-else class="text-at-light-green text-2xl text-center">
+      {{ data.workoutName }}
+     </h1>
+    </div>
+   </div>
+  </div>
+
+  <!-- exercises-->
+
+  <div
+   class="mt-10 p-8 rounded-md flex flex-col items-center bg-light-grey shadow-md"
+  ></div>
  </div>
 </template>
 
 <script>
- import { ref } from "vue"
+ import { computed, ref } from "vue"
  import { useRoute } from "vue-router"
+ import store from "../store"
  import { supabase } from "../supabase/init"
 
  export default {
@@ -26,6 +91,7 @@
    const errorMsg = ref(null)
    const statusMsg = ref(null)
    const route = useRoute()
+   const user = computed(() => store.state.user)
 
    // Get current Id of route
    const currentId = route.params.workoutId
@@ -40,7 +106,7 @@
      if (error) {
       throw error
      }
-     data.value = workouts
+     data.value = workouts[0]
      dataLoaded.value = true
      console.log(data.value)
     } catch (error) {
@@ -56,6 +122,10 @@
    // Delete workout
 
    // Edit mode
+   const edit = ref(null)
+   const editMode = () => {
+    edit.value = !edit.value
+   }
 
    // Add exercise
 
@@ -63,7 +133,7 @@
 
    // Update Workout
 
-   return { statusMsg, data, dataLoaded }
+   return { statusMsg, data, dataLoaded, edit, editMode, user }
   },
  }
 </script>
