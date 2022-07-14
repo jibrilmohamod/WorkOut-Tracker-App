@@ -72,7 +72,190 @@
 
   <div
    class="mt-10 p-8 rounded-md flex flex-col items-center bg-light-grey shadow-md"
-  ></div>
+  >
+   <!-- strength -->
+   <div
+    v-if="data.workoutType === 'Strength'"
+    class="flex flex-col gap-y-4 w-full"
+   >
+    <div
+     v-for="(item, index) in data.exercises"
+     :key="index"
+     class="flex flex-col gap-x-6 gap-y-2 relative sm:flex-row"
+    >
+     <div class="flex flex-2 flex-col md:w-1/3">
+      <label for="exerciseName" class="mb-1 text-sm text-at-light-green ">
+       Exercise
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="exerciseName"
+       v-model="item.exercise"
+      />
+
+      <p v-else>{{ item.exercise }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="sets" class="mb-1 text-sm text-at-light-green ">
+       Sets
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="sets"
+       v-model="item.sets"
+      />
+
+      <p v-else>{{ item.sets }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="reps" class="mb-1 text-sm text-at-light-green ">
+       Reps
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="reps"
+       v-model="item.reps"
+      />
+
+      <p v-else>{{ item.reps }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="weights" class="mb-1 text-sm text-at-light-green ">
+       Weights
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="sets"
+       v-model="item.weight"
+      />
+
+      <p v-else>{{ item.weight }}</p>
+     </div>
+     <img
+      v-if="edit"
+      class="h-4 absolute w-auto -left-5 cursor-pointer "
+      src="../assets/images/trash-light-green.png"
+      alt=""
+     />
+    </div>
+
+    <button
+     @click="addExercise"
+     type="button"
+     class="mt-6 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
+    >
+     Add exercise
+    </button>
+   </div>
+
+   <!-- cardio -->
+
+   <div v-else class="flex flex-col gap-y-4 w-full">
+    <div
+     v-for="(item, index) in data.exercises"
+     :key="index"
+     class="flex flex-col gap-x-6 gap-y-2 relative sm:flex-row"
+    >
+     <div class="flex flex-2 flex-col md:w-1/3">
+      <label for="cardioType" class="mb-1 text-sm text-at-light-green ">
+       Cardio Type
+      </label>
+      <select
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="cardioType"
+       v-model="item.cardioType"
+      >
+       <option value="#">Select Type</option>
+       <option value="run">Runs</option>
+       <option value="walk">Walks</option>
+      </select>
+
+      <p v-else>{{ item.cardioType }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="distance" class="mb-1 text-sm text-at-light-green ">
+       Distance
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="distance"
+       v-model="item.distance"
+      />
+
+      <p v-else>{{ item.distance }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="duration" class="mb-1 text-sm text-at-light-green ">
+       Duration
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="duration"
+       v-model="item.duration"
+      />
+
+      <p v-else>{{ item.duration }}</p>
+     </div>
+
+     <div class="flex flex-1 flex-col ">
+      <label for="pace" class="mb-1 text-sm text-at-light-green ">
+       Pace
+      </label>
+      <input
+       type="text"
+       v-if="edit"
+       class="w-full text-gray-500 focus:outline-none"
+       id="pace"
+       v-model="item.pace"
+      />
+
+      <p v-else>{{ item.pace }}</p>
+     </div>
+     <img
+      v-if="edit"
+      class="h-4 absolute w-auto -left-5 cursor-pointer "
+      src="../assets/images/trash-light-green.png"
+      alt=""
+     />
+    </div>
+
+    <button
+     @click="addExercise"
+     type="button"
+     class="mt-6 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
+    >
+     Add exercise
+    </button>
+   </div>
+  </div>
+
+  <!--update  -->
+  <button
+   type="submit"
+   v-if="edit"
+   class="mt-10 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
+  >
+   Update Workout
+  </button>
  </div>
 </template>
 
