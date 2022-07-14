@@ -3,6 +3,7 @@ import CreateVue from "../views/Create.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
+import viewWorkout from "../views/ViewWorkout.vue"
 
 const routes = [
  {
@@ -24,6 +25,11 @@ const routes = [
   path: "/create",
   name: "create",
   component: CreateVue,
+ },
+ {
+  path: "/viewWorkout",
+  name: "",
+  component: viewWorkout,
  },
 ]
 
