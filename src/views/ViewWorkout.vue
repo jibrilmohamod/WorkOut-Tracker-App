@@ -92,10 +92,10 @@
        v-if="edit"
        class="w-full text-gray-500 focus:outline-none"
        id="exerciseName"
-       v-model="item.exercise"
+       v-model="item.exercises"
       />
 
-      <p v-else>{{ item.exercise }}</p>
+      <p v-else>{{ item.exercises }}</p>
      </div>
 
      <div class="flex flex-1 flex-col ">
@@ -144,6 +144,7 @@
      </div>
      <img
       v-if="edit"
+      @click="deleteExercise(item.id)"
       class="h-4 absolute w-auto -left-5 cursor-pointer "
       src="../assets/images/trash-light-green.png"
       alt=""
@@ -232,6 +233,7 @@
       <p v-else>{{ item.pace }}</p>
      </div>
      <img
+      @click="deleteExercise(item.id)"
       v-if="edit"
       class="h-4 absolute w-auto -left-5 cursor-pointer "
       src="../assets/images/trash-light-green.png"
@@ -252,7 +254,8 @@
 
   <!--update  -->
   <button
-   type="submit"
+   @click="update"
+   type="button"
    v-if="edit"
    class="mt-10 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
   >
@@ -262,6 +265,7 @@
 </template>
 
 <script>
+ import { uid } from "uid"
  import { computed, ref } from "vue"
  import { useRoute, useRouter } from "vue-router"
  import store from "../store"
@@ -328,12 +332,77 @@
    }
 
    // Add exercise
+   const addExercise = () => {
+    if (data.value.workoutType == "Strength") {
+     data.value.exercises.push({
+      id: uid(),
+      exercise: "",
+      sets: "",
+      reps: "",
+      weight: "",
+     })
+     return
+    }
+    data.value.exercises.push({
+     id: uid(),
+     cardioType: "",
+     distance: "",
+     duration: "",
+     pace: "",
+    })
+   }
 
    // Delete exercise
+   const deleteExercise = (id) => {
+    if (data.value.exercises.length > 1) {
+     data.value.exercises = data.value.exercises.filter(
+      (exercise) => exercise.id !== id
+     )
+     return
+    }
+    errorMsg.value = "Error: Cannot remove, need to have at least one exercise"
+    setTimeout(() => {
+     errorMsg.value = false
+    }, 5000)
+   }
 
    // Update Workout
+   const update = async () => {
+    try {
+     const { error } = await supabase
+      .from("workouts")
+      .update({
+       workoutName: data.value.workoutName,
+       exercises: data.value.exercises,
+      })
+      .eq("id", currentId)
 
-   return { statusMsg, data, dataLoaded, edit, editMode, user, deleteWorkout }
+     if (error) throw error
+     edit.value = false
+     statusMsg.value = "Success: Workout updated"
+     setTimeout(() => {
+      statusMsg.value = false
+     }, 5000)
+    } catch (error) {
+     errorMsg.value = `Error: ${error.message} `
+     setTimeout(() => {
+      errorMsg.value = false
+     }, 5000)
+    }
+   }
+
+   return {
+    statusMsg,
+    data,
+    dataLoaded,
+    edit,
+    editMode,
+    user,
+    deleteWorkout,
+    addExercise,
+    deleteExercise,
+    update,
+   }
   },
  }
 </script>
