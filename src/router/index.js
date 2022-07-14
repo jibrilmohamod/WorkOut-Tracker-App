@@ -27,8 +27,8 @@ const routes = [
   component: CreateVue,
  },
  {
-  path: "/viewWorkout",
-  name: "",
+  path: "/viewWorkout/:workoutId",
+  name: "viewWorkout",
   component: viewWorkout,
  },
 ]

@@ -1,28 +1,34 @@
 <template>
-  <div></div>
+ <div></div>
 </template>
 
 <script>
-export default {
-  name: "view-workout",
+ import { ref } from "vue"
+
+ export default {
+  name: "viewWorkout",
   setup() {
-    // Create data / vars
+   // Create data / vars
+   const data = ref(null)
+   const dataLoaded = ref(null)
+   const errorMsg = ref(null)
+   const statusMsg = ref(null)
 
-    // Get current Id of route
+   // Get current Id of route
 
-    // Get workout data
+   // Get workout data
 
-    // Delete workout
+   // Delete workout
 
-    // Edit mode
+   // Edit mode
 
-    // Add exercise
+   // Add exercise
 
-    // Delete exercise
+   // Delete exercise
 
-    // Update Workout
+   // Update Workout
 
-    return {};
+   return {}
   },
-};
+ }
 </script>
