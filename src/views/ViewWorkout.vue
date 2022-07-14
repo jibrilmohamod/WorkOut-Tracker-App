@@ -152,6 +152,7 @@
 
     <button
      @click="addExercise"
+     v-if="edit"
      type="button"
      class="mt-6 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
     >
@@ -240,6 +241,7 @@
 
     <button
      @click="addExercise"
+     v-if="edit"
      type="button"
      class="mt-6 py-2 px-6 rounded-sm self-start text-sm text-white bg-at-light-green duration-200 border-solid border-2 border-transparent hover:border-at-light-green hover:bg-white hover:text-at-light-green"
     >
@@ -261,7 +263,7 @@
 
 <script>
  import { computed, ref } from "vue"
- import { useRoute } from "vue-router"
+ import { useRoute, useRouter } from "vue-router"
  import store from "../store"
  import { supabase } from "../supabase/init"
 
@@ -275,6 +277,7 @@
    const statusMsg = ref(null)
    const route = useRoute()
    const user = computed(() => store.state.user)
+   const router = useRouter()
 
    // Get current Id of route
    const currentId = route.params.workoutId
@@ -291,7 +294,6 @@
      }
      data.value = workouts[0]
      dataLoaded.value = true
-     console.log(data.value)
     } catch (error) {
      errorMsg.value = error.message
      setTimeout(() => {
@@ -303,6 +305,21 @@
    getData()
 
    // Delete workout
+   const deleteWorkout = async () => {
+    try {
+     const { error } = await supabase
+      .from("workouts")
+      .delete()
+      .eq("id", currentId)
+     if (error) throw error
+     router.push({ name: "Home" })
+    } catch (error) {
+     errorMsg.value = `Error: ${error.message} `
+     setTimeout(() => {
+      errorMsg.value = false
+     }, 5000)
+    }
+   }
 
    // Edit mode
    const edit = ref(null)
@@ -316,7 +333,7 @@
 
    // Update Workout
 
-   return { statusMsg, data, dataLoaded, edit, editMode, user }
+   return { statusMsg, data, dataLoaded, edit, editMode, user, deleteWorkout }
   },
  }
 </script>
